@@ -6,7 +6,7 @@
   "scripts": {
     "res:build": "rescript",
     "res:clean": "rescript clean",
-    "res:dev": "rescript -w",
+    "watch": "rescript -w",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
@@ -15,11 +15,12 @@
     "@rescript/core": "^1.5.2",
     "@rescript/react": "^0.12.1",
     "react": "^18.2.0",
+    "preact": "^10.22.1",
     "react-dom": "^18.2.0",
     "rescript": "^11.1.2"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.2.1",
+    "@preact/preset-vite": "^2.8.3",
     "autoprefixer": "^10.4.15",
     "postcss": "^8.4.28",
     "tailwindcss": "^3.3.3",

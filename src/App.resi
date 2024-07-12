@@ -1,2 +1,2 @@
-@react.component
+@jsx.component
 let make: unit => Jsx.element
