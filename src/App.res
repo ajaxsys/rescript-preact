@@ -11,7 +11,7 @@ let make = () => {
     </p>
     <h2 className="text-2xl font-semibold mt-5"> {string("Fast Refresh Test")} </h2>
     <Button onClick={_ => setCount(count => count + 1)}>
-      {string(`count xx is ${count->Int.toString}`)}
+      {string(`count is ${count->Int.toString}`)}
     </Button>
     <p>
       {string("Edit ")}
