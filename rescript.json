@@ -14,13 +14,13 @@
   ],
   "suffix": ".res.mjs",
   "bs-dependencies": [
-    "@rescript/core",
-    "@rescript/react"
+    "@rescript/core"
   ],
   "bsc-flags": [
     "-open RescriptCore"
   ],
   "jsx": {
-    "version": 4
+    "version": 4,
+    "module": "Preact"
   }
 }

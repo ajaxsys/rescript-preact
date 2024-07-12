@@ -13,10 +13,8 @@
   },
   "dependencies": {
     "@rescript/core": "^1.5.2",
-    "@rescript/react": "^0.12.1",
     "react": "^18.2.0",
     "preact": "^10.22.1",
-    "react-dom": "^18.2.0",
     "rescript": "^11.1.2"
   },
   "devDependencies": {

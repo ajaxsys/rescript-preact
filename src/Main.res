@@ -1,11 +1,8 @@
 %%raw("import './index.css'")
+open Preact
 
-switch ReactDOM.querySelector("#root") {
+switch Doc.querySelector("#root") {
 | Some(domElement) =>
-  ReactDOM.Client.createRoot(domElement)->ReactDOM.Client.Root.render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>,
-  )
+  render(<App />, domElement)
 | None => ()
 }
