@@ -12,6 +12,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.2.6",
     "@rescript/core": "^1.5.2",
     "preact": "^10.22.1",
     "rescript": "^11.1.2"

@@ -3,6 +3,9 @@ open Preact
 
 switch Doc.querySelector("#root") {
 | Some(domElement) =>
-  render(<App />, domElement)
+  render(
+    <RTK.Provider store=Store.store>
+      <App />
+    </RTK.Provider>, domElement)
 | None => ()
 }
