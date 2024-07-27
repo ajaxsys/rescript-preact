@@ -4,27 +4,34 @@
 // @module("redux-toolkit") 
 // external configureStore: (Js.Dict.t<'a>) => Js.Dict.t<'a> = "configureStore"
 
-type action<'a> = {
-  increment: (int, 'a) => int,
-  decrement: (int, 'a) => int,
+type state = {
+  value: int
+}
+let emptyState = {
+  value: 1
 }
 
-type slice<'a> = {
+type action<'state> = {
+  increment: (state) => state, // Can draft in js, so JS can update it & NO need to return anything
+  decrement: (state) => state, // Can draft in js, so JS can update it & NO need to return anything
+}
+
+type slice<'state> = {
   name: string,
-  initialState: int,
-  actions: action<'a>,
-  reducer?: RTK.Redux.reducer<'a, 'a>
+  initialState: 'state,
+  actions: action<'state>,
+  reducer?: RTK.Redux.reducer<'state, 'state>
 }
 
 @module("@reduxjs/toolkit") 
 external createSlice: (slice<'a>) => Js.Dict.t<JSON.t> = "createSlice"
 
-let stateslice: slice<int> = {
+let stateslice: slice<state> = {
   name: "counter",
-  initialState: 0,
+  initialState: emptyState,
   actions: {
-    increment: (state, int) => state + int,
-    decrement: (state, int) => state - int,
+    increment: (state) => {value: state.value + 1},
+    decrement: (state) => {value: state.value - 1}
   },
 }
 
