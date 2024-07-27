@@ -16,7 +16,7 @@ type slice<'a> = {
   reducer?: RTK.Redux.reducer<'a, 'a>
 }
 
-@module("redux-toolkit") 
+@module("@reduxjs/toolkit") 
 external createSlice: (slice<'a>) => Js.Dict.t<JSON.t> = "createSlice"
 
 let stateslice: slice<int> = {

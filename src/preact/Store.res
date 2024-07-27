@@ -19,7 +19,7 @@ type configureStoreType = {
 type allState
 type allAction
 
-@module("redux-toolkit") 
+@module("@reduxjs/toolkit") 
 external configureStore: (configureStoreType) => Redux.store<allState,allAction> = "configureStore"
 
 let createReducers: array<Js.Dict.t<RescriptCore.JSON.t>> => JSON.t =  %raw(`
@@ -30,7 +30,7 @@ let createReducers: array<Js.Dict.t<RescriptCore.JSON.t>> => JSON.t =  %raw(`
       r[reducer.name] = reducer["reducer"]
     }
    });
-   return target.toISOString().split('T')[0];
+   return r;
 }`)
 
 let store = configureStore({

@@ -28,7 +28,7 @@ module Provider = {
     makeProps: (~store: Redux.store<'state, 'action>, ~children: Jsx.element, ~key: 'key=?, unit)
         => {"children": Jsx.element, "store": Redux.store<'state, 'action>} = ""
         
-    @module("react-redux")
+    @module("@reduxjs/toolkit")
     external provider: Jsx.component<props<'children,'state,'action>> = "Provider"
 
     let make: Jsx.component<props<'children,'state,'action>> = provider
