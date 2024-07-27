@@ -20,6 +20,17 @@ let rtkSelector: Js.Dict.t<RescriptCore.JSON.t> => CounterSlice.state = %raw(`
     });
   }
 `)
+let rtkAction: Js.Dict.t<RescriptCore.JSON.t> => CounterSlice.action<CounterSlice.state> = %raw(`
+  slice => {
+    return slice.actions;
+  }
+`)
+let rtkDispatch: CounterSlice.state => CounterSlice.state => unit = %raw(`
+  action => {
+    let dispatch = useDispatch();
+    return dispatch(action());
+  }
+`)
 
 @jsx.component
 let make = () => {
@@ -29,7 +40,15 @@ let make = () => {
   // const count = useSelector((state) => state.counter.value);
 
   let count:CounterSlice.state = rtkSelector(CounterSlice.counterSlice)
-  // const dispatch = useDispatch();
+  let countAction:CounterSlice.action<CounterSlice.state> = rtkAction(CounterSlice.counterSlice)
+  
+  let dispatch = useDispatch();
+  Console.log(dispatch)
+  let dispatchExec: (CounterSlice.state => CounterSlice.state) => unit = %raw(`
+    action => {
+      return dispatch(action());
+    }
+  `)
 
   // <Button onClick={_ => dispatch(increment())}>
   //   {string(`count is ${count->Int.toString}`)}
@@ -43,7 +62,7 @@ let make = () => {
       {string("This is a simple template for a Vite project using ReScript & Tailwind CSS.")}
     </p>
     <h2 className="text-2xl font-semibold mt-5"> {string("Fast Refresh Test")} </h2>
-    <Button onClick={_ => ()}>
+    <Button onClick={_ => dispatchExec(countAction.increment)}>
       {string(`count is ${count.value->Int.toString}`)}
     </Button>
     <p>

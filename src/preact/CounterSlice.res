@@ -19,7 +19,7 @@ type action<'state> = {
 type slice<'state> = {
   name: string,
   initialState: 'state,
-  actions: action<'state>,
+  reducers: action<'state>,
   reducer?: RTK.Redux.reducer<'state, 'state>
 }
 
@@ -29,7 +29,7 @@ external createSlice: (slice<'a>) => Js.Dict.t<JSON.t> = "createSlice"
 let stateslice: slice<state> = {
   name: "counter",
   initialState: emptyState,
-  actions: {
+  reducers: {
     increment: (state) => {value: state.value + 1},
     decrement: (state) => {value: state.value - 1}
   },
