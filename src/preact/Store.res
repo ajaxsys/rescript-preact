@@ -22,6 +22,7 @@ type allAction
 @module("@reduxjs/toolkit") 
 external configureStore: (configureStoreType) => Redux.store<allState,allAction> = "configureStore"
 
+%%private(
 let createReducers: array<Js.Dict.t<RescriptCore.JSON.t>> => JSON.t =  %raw(`
  (reducers) => {
    const r = {}
@@ -32,6 +33,7 @@ let createReducers: array<Js.Dict.t<RescriptCore.JSON.t>> => JSON.t =  %raw(`
    });
    return r;
 }`)
+)
 
 let store = configureStore({
   reducer: createReducers([CounterSlice.counterSlice]),
