@@ -3,8 +3,7 @@ open Preact
 @jsx.component
 let make = () => {
 
-  let count:CounterSlice.state = CounterSlice.useState()
-  
+  let countState = CounterSlice.useState()
   let actions = CounterSlice.useActions()
 
   <div className="p-6">
@@ -14,7 +13,7 @@ let make = () => {
     </p>
     <h2 className="text-2xl font-semibold mt-5"> {string("Fast Refresh Test")} </h2>
     <Button onClick={_ => actions["incrementCounter"]()}>
-      {string(`count is ${count.value->Int.toString}`)}
+      {string(`count is ${countState.value->Int.toString}`)}
     </Button>
     <p>
       {string("Edit ")}
