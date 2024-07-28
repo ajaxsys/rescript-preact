@@ -1,14 +1,6 @@
-// @module("redux-toolkit") 
-// external createSlice: (JSON.t) => JSON.t = "createSlice"
-
-// @module("redux-toolkit") 
-// external configureStore: (Js.Dict.t<'a>) => Js.Dict.t<'a> = "configureStore"
-
+// Define Rs types
 type state = {
   value: int
-}
-let emptyState = {
-  value: 1
 }
 
 type action<'state> = {
@@ -23,10 +15,12 @@ type slice<'state> = {
   reducer?: RTK.Redux.reducer<'state, 'state>
 }
 
-@module("@reduxjs/toolkit") 
-external createSlice: (slice<'a>) => Js.Dict.t<JSON.t> = "createSlice"
+// Define init states
+let emptyState = {
+  value: 1
+}
 
-let stateslice: slice<state> = {
+let initSlice: slice<state> = {
   name: "counter",
   initialState: emptyState,
   reducers: {
@@ -35,21 +29,17 @@ let stateslice: slice<state> = {
   },
 }
 
-let counterSlice = createSlice(stateslice)
+let counterSlice = RTK.createSlice(initSlice)
 
 
-
-
-
+// For export
+// type action<'a> = {
+//   increment: (int, 'a) => int,
+//   decrement: (int, 'a) => int,
+// }
+let actions: action<state> = counterSlice->RTK.toActions
 
 let useState: unit => state = () => counterSlice->RTK.toState
-
-
-let rtkAction: Js.Dict.t<RescriptCore.JSON.t> => action<state> = %raw(`
-  slice => {
-    return slice.actions;
-  }
-`)
 
 let dispatchExec: (RTK.useDispatchReturnType<unit>, state => state) => unit = %raw(`
   (dispatch, action) => {
@@ -58,32 +48,15 @@ let dispatchExec: (RTK.useDispatchReturnType<unit>, state => state) => unit = %r
 `)
 
 let useActions = () => {
-  let countAction:action<state> = rtkAction(counterSlice)
   let dispatch = RTK.useDispatch();
 
   let incrementCounter = () => {
-    dispatchExec(dispatch, countAction.increment);
+    dispatchExec(dispatch, actions.increment);
   };
 
   let decrementCounter = () => {
-    dispatchExec(dispatch, countAction.decrement);
+    dispatchExec(dispatch, actions.decrement);
   };
 
   { "incrementCounter": incrementCounter, "decrementCounter":decrementCounter };
 };
-
-
-
-
-
-
-// For export
-// type action<'a> = {
-//   increment: (int, 'a) => int,
-//   decrement: (int, 'a) => int,
-// }
-let actions = counterSlice->Js.Dict.get("actions")
-let reducer = counterSlice->Js.Dict.get("reducer")
-
-Console.log2("actions", actions)
-Console.log2("reducer", reducer)
