@@ -5,10 +5,10 @@
 // external configureStore: (Js.Dict.t<'a>) => Js.Dict.t<'a> = "configureStore"
 
 type state = {
-  value: int
+  value2: int
 }
 let emptyState = {
-  value: 1
+  value2: 1
 }
 
 type action<'state> = {
@@ -30,52 +30,13 @@ let stateslice: slice<state> = {
   name: "counter",
   initialState: emptyState,
   reducers: {
-    increment: (state) => {value: state.value + 1},
-    decrement: (state) => {value: state.value - 1}
+    increment: (state) => {value2: state.value2 + 1},
+    decrement: (state) => {value2: state.value2 - 1}
   },
 }
 
 let counterSlice = createSlice(stateslice)
-
-
-
-
-
-
-let useState: unit => state = () => counterSlice->RTK.toState
-
-
-let rtkAction: Js.Dict.t<RescriptCore.JSON.t> => action<state> = %raw(`
-  slice => {
-    return slice.actions;
-  }
-`)
-
-let dispatchExec: (RTK.useDispatchReturnType<unit>, state => state) => unit = %raw(`
-  (dispatch, action) => {
-    return dispatch(action());
-  }
-`)
-
-let useActions = () => {
-  let countAction:action<state> = rtkAction(counterSlice)
-  let dispatch = RTK.useDispatch();
-
-  let incrementCounter = () => {
-    dispatchExec(dispatch, countAction.increment);
-  };
-
-  let decrementCounter = () => {
-    dispatchExec(dispatch, countAction.decrement);
-  };
-
-  { "incrementCounter": incrementCounter, "decrementCounter":decrementCounter };
-};
-
-
-
-
-
+let state: state = counterSlice->RTK.toState
 
 // For export
 // type action<'a> = {

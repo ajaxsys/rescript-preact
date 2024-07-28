@@ -1,3 +1,23 @@
+@module("react-redux")
+external
+useSelector_: (@uncurry 'state => 'subState) => 'subState = "useSelector"
+let useSelector: (@uncurry 'state => 'subState) => 'subState = useSelector_
+
+type useDispatchReturnType<'action> = 'action => unit
+
+@module("react-redux")
+external
+useDispatch_: unit => useDispatchReturnType<'action> = "useDispatch"
+let useDispatch: unit => useDispatchReturnType<'action> = useDispatch_
+
+
+let toState: 'slice => 'state = %raw(`
+  slice => {
+    return useSelector((state) => {
+      return state[slice.name]
+    });
+  }
+`)
 
 module Redux = {
   type reducer<'state, 'action> = ('state, 'action) => 'state
