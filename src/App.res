@@ -6,6 +6,10 @@ let make = () => {
   let countState = CounterSlice.useState()
   let actions = CounterSlice.useActions()
 
+  // TODO
+  // let slice = Counter2Slice.counterSlice
+
+
   <div className="p-6">
     <h1 className="text-3xl font-semibold"> {"What is this about?"->string} </h1>
     <p>

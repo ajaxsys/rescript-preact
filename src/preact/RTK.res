@@ -1,11 +1,15 @@
-@module("react-redux")
-external useSelector_: (@uncurry 'state => 'subState) => 'subState = "useSelector"
-let useSelector: (@uncurry 'state => 'subState) => 'subState = useSelector_
-
 type useDispatchReturnType<'action> = 'action => unit
 
-@module("react-redux")
-external useDispatch_: unit => useDispatchReturnType<'action> = "useDispatch"
+%%private(
+  
+  @module("react-redux")
+  external useSelector_: (@uncurry 'state => 'subState) => 'subState = "useSelector"
+
+  @module("react-redux")
+  external useDispatch_: unit => useDispatchReturnType<'action> = "useDispatch"
+)
+
+let useSelector: (@uncurry 'state => 'subState) => 'subState = useSelector_
 let useDispatch: unit => useDispatchReturnType<'action> = useDispatch_
 
 let toState: 'slice => 'state = %raw(`
@@ -22,6 +26,15 @@ type sliceType = {name: string}
 
 @module("@reduxjs/toolkit")
 external createSlice: 'slice => sliceType = "createSlice"
+
+// TODO
+let createSlice2 = (name: string, initialState: 'state, singleReducer: 'reducer) => {
+  createSlice({
+    "name": name,
+    "initialState": initialState,
+    "reducers": singleReducer
+  })
+}
 
 module Redux = {
   type reducer<'state, 'action> = ('state, 'action) => 'state
