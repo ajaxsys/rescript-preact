@@ -7,7 +7,9 @@ let make = () => {
   let actions = CounterSlice.useActions()
 
   // TODO
-  // let slice = Counter2Slice.counterSlice
+  let slice = Counter2Slice.counterSlice
+  Console.log(slice)
+  // TODO useDispatch it
 
 
   <div className="p-6">

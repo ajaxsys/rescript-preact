@@ -27,12 +27,25 @@ type sliceType = {name: string}
 @module("@reduxjs/toolkit")
 external createSlice: 'slice => sliceType = "createSlice"
 
+%%private(
+  let toReducersObject = %raw(`
+    (reducer, reducerActions) => {
+      const actionNames = reducerActions.map(ra => ra["TAG"] ? ra["TAG"] : ra)
+      const result = actionNames.reduce((obj, actionName) => {
+        obj[actionName] = reducer;
+        return obj;
+      }, {});
+      return result
+    }
+  `)
+)
+
 // TODO
-let createSlice2 = (name: string, initialState: 'state, singleReducer: 'reducer) => {
+let createSlice2 = (name: string, initialState: 'state, (reducer, reducerActions: array<'ra>)) => {
   createSlice({
     "name": name,
     "initialState": initialState,
-    "reducers": singleReducer
+    "reducers": toReducersObject(reducer, reducerActions)
   })
 }
 

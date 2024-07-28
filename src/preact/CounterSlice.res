@@ -6,6 +6,7 @@ type state = {
 type action<'state> = {
   increment: (state) => state, // Can draft in js, so JS can update it & NO need to return anything
   decrement: (state) => state, // Can draft in js, so JS can update it & NO need to return anything
+  incrementByAmount: (state, int) => state, // Can draft in js, so JS can update it & NO need to return anything
 }
 
 type slice<'state> = {
@@ -25,7 +26,8 @@ let initSlice: slice<state> = {
   initialState: emptyState,
   reducers: {
     increment: (state) => {value: state.value + 1},
-    decrement: (state) => {value: state.value - 1}
+    decrement: (state) => {value: state.value - 1},
+    incrementByAmount: (state, amount) => {value: state.value + amount},
   },
 }
 
@@ -57,6 +59,11 @@ let useActions = () => {
   let decrementCounter = () => {
     dispatchExec(dispatch, actions.decrement);
   };
+
+  // TODO Need a new way
+  // let incrementByAmountHandler = (amount) => {
+  //   dispatchExec(dispatch, actions.incrementByAmount(amount));
+  // }
 
   { "incrementCounter": incrementCounter, "decrementCounter":decrementCounter };
 };
