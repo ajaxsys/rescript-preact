@@ -18,8 +18,10 @@ let toState: 'slice => 'state = %raw(`
 
 let toActions: 'slice => 'actions = %raw(`slice => slice["actions"]`)
 
+type sliceType = {name: string}
+
 @module("@reduxjs/toolkit")
-external createSlice: 'slice => Js.Dict.t<JSON.t> = "createSlice"
+external createSlice: 'slice => sliceType = "createSlice"
 
 module Redux = {
   type reducer<'state, 'action> = ('state, 'action) => 'state
@@ -72,7 +74,7 @@ module Store = {
     "configureStore"
 
   %%private(
-    let createReducers: array<Js.Dict.t<RescriptCore.JSON.t>> => JSON.t = %raw(`
+    let createReducers: array<sliceType> => JSON.t = %raw(`
             (reducers) => {
             const r = {}
             reducers.forEach(reducer => {
@@ -84,7 +86,7 @@ module Store = {
         }`)
   )
 
-  let configureStore = (slices: array<Js.Dict.t<RescriptCore.JSON.t>>) => {
+  let configureStore = (slices: array<sliceType>) => {
     configureStore_({
       reducer: createReducers(slices),
     })
