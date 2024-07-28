@@ -12,6 +12,31 @@ type useDispatchReturnType<'action> = 'action => unit
 let useSelector: (@uncurry 'state => 'subState) => 'subState = useSelector_
 let useDispatch: unit => useDispatchReturnType<'action> = useDispatch_
 
+let useDispatch2: unit => useDispatchReturnType<'action> = %raw(`
+  () => {
+    let dispatch = useDispatch()
+    return dispatch
+  }
+`)
+
+// TODO
+let action: ('slice, 'actionParam) => 'action = %raw(`
+  (slice, actionNameMayStringOrObject) => {
+    const isWithParam = actionNameMayStringOrObject["TAG"]
+    const actionName = isWithParam ? actionNameMayStringOrObject["TAG"] : actionNameMayStringOrObject
+    const actionFn = slice["actions"][actionName]
+    console.log(slice, actionName, actionFn)
+    if (!actionFn) {
+      throw new Error("Action not exist, " + actionName);
+    }
+    if (isWithParam) {
+      return actionFn(actionNameMayStringOrObject)
+    } else {
+      return actionFn()
+    }
+  }
+`)
+
 let toState: 'slice => 'state = %raw(`
   slice => {
     return useSelector((state) => {
@@ -32,7 +57,11 @@ external createSlice: 'slice => sliceType = "createSlice"
     (reducer, reducerActions) => {
       const actionNames = reducerActions.map(ra => ra["TAG"] ? ra["TAG"] : ra)
       const result = actionNames.reduce((obj, actionName) => {
-        obj[actionName] = reducer;
+        obj[actionName] = (s, a) => {
+          // console.log("A wrapper to extract payload from Redux toolkit")
+          // which like '{"type":"counter2/IncrementByAmount","payload":{"TAG":"IncrementByAmount","_0":2}}'
+          return reducer(s, a["payload"]);
+        }
         return obj;
       }, {});
       return result

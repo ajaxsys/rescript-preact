@@ -9,12 +9,14 @@ type action =
   | IncrementByAmount(int)
   | Decrement
 
-let reducer = ({value}: state, a: action) =>
+let reducer = ({value}: state, a: action) =>{
+  Console.log("Rs reducer caled")
   switch a {
   | Increment => {value: value + 1}
   | IncrementByAmount(amount) => {value: value + amount}
   | Decrement => {value: value - 1}
   }
+}
 
 type slice<'state> = {
   name: string,
@@ -26,4 +28,5 @@ let reducerActions = [Increment, IncrementByAmount(0), Decrement]
 
 let counterSlice = RTK.createSlice2("counter2", initState, (reducer, reducerActions))
 
+let useState: unit => state = () => counterSlice->RTK.toState
 

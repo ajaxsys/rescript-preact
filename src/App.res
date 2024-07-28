@@ -7,9 +7,8 @@ let make = () => {
   let actions = CounterSlice.useActions()
 
   // TODO
-  let slice = Counter2Slice.counterSlice
-  Console.log(slice)
-  // TODO useDispatch it
+  let count2State = Counter2Slice.useState()
+  let dispatch = RTK.useDispatch2()
 
 
   <div className="p-6">
@@ -20,6 +19,16 @@ let make = () => {
     <h2 className="text-2xl font-semibold mt-5"> {string("Fast Refresh Test")} </h2>
     <Button onClick={_ => actions["incrementCounter"]()}>
       {string(`count is ${countState.value->Int.toString}`)}
+    </Button>
+    <br />
+    <br />
+    // Counter2
+    <Button onClick={_ => {
+      let a = RTK.action(Counter2Slice.counterSlice, Counter2Slice.IncrementByAmount(2))
+      Console.log(("xxxx", a))
+      dispatch(a)
+    }}>
+      {string(`count2 is ${count2State.value->Int.toString}`)}
     </Button>
     <p>
       {string("Edit ")}
