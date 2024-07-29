@@ -1,9 +1,9 @@
 let sliceName = "counter2"
 
 // Define Rs types
-type state = {value: int}
+type state = {value2: int}
 let initState: state = {
-  value: 0,
+  value2: 0,
 }
 
 type action =
@@ -11,11 +11,11 @@ type action =
   | IncrementByAmount(int)
   | Decrement
 
-let reducer = ({value}: state, a: action) =>{
+let reducer = ({value2}: state, a: action) =>{
   switch a {
-  | Increment => {value: value + 1}
-  | IncrementByAmount(amount) => {value: value + amount}
-  | Decrement => {value: value - 1}
+  | Increment => {value2: value2 + 1}
+  | IncrementByAmount(amount) => {value2: value2 + amount}
+  | Decrement => {value2: value2 - 1}
   }
 }
 

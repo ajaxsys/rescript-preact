@@ -29,7 +29,7 @@ let make = () => {
       // Console.log(("xxxx", incrementByAmount))
       dispatch2(incrementByAmount(2))
     }}>
-      {`Count 2 is ${state2.value->Int.toString}`->string}
+      {`Count 2 is ${state2.value2->Int.toString}`->string}
     </Button>
     
     <br />
