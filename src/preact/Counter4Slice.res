@@ -25,6 +25,6 @@ let reducerActions: array<action> = [Increment, IncrementByAmount(0), Decrement]
 let counterSlice = RTK.createSliceWithActionArray(sliceName, initState, (reducer, reducerActions))
 
 let useState = () => counterSlice->RTK.useStateOf(initState)
-let useDispatch = () => RTK.useDispatchOf(counterSlice, reducerActions)
+let useDispatch = () => counterSlice->RTK.useDispatchOf(reducerActions)
 
 let use = () => (useState(), useDispatch())

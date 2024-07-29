@@ -46,4 +46,4 @@ let {increment, incrementByAmount, decrement} = actions
 
 let useDispatch = () => RTK.useDispatch()
 
-let use = (useState, useDispatch)
+let use = () => (useState(), useDispatch())
