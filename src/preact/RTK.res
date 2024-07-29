@@ -12,12 +12,6 @@ type useDispatchReturnType<'action> = 'action => unit
 let useSelector: (@uncurry 'state => 'subState) => 'subState = useSelector_
 let useDispatch: unit => useDispatchReturnType<'action> = useDispatch_
 
-let useDispatch2: unit => useDispatchReturnType<'action> = %raw(`
-  () => {
-    let dispatch = useDispatch()
-    return dispatch
-  }
-`)
 
 // TODO
 let action: ('slice, 'actionParam) => 'action = %raw(`
@@ -47,7 +41,15 @@ let toState: 'slice => 'state = %raw(`
 
 let toActions: 'slice => 'actions = %raw(`slice => slice["actions"]`)
 
-type sliceType = {name: string}
+// TODO more type
+// type sliceType<'state> = {
+//   name: string,
+//   initialState: 'state,
+// }
+type sliceType = {
+  name: string,
+}
+
 
 @module("@reduxjs/toolkit")
 external createSlice: 'slice => sliceType = "createSlice"
@@ -75,6 +77,31 @@ let createSlice2 = (name: string, initialState: 'state, (reducer, reducerActions
     "name": name,
     "initialState": initialState,
     "reducers": toReducersObject(reducer, reducerActions)
+  })
+}
+
+
+
+%%private(
+  let appendReducer = %raw(`
+    (reducerActions, reducer) => {
+      const result = Object.fromEntries(
+        // fn return a "type action" like IncrementByAmount(int)
+        Object.entries(reducerActions).map(([key, actionFn]) => [key, (s, actionMayWithPayLoad) => {
+          const actionCombined = actionMayWithPayLoad["payload"] ? actionFn(actionMayWithPayLoad["payload"]) : actionFn()
+          // console.log("combind type action and real payload", actionCombined)
+          return reducer(s, actionCombined)
+        }])
+      );
+      return result
+    }
+  `)
+)
+let createSlice3 = (name: string, initialState: 'state, (reducer, reducerActions)): sliceType => {
+  createSlice({
+    "name": name,
+    "initialState": initialState,
+    "reducers": appendReducer(reducerActions, reducer)
   })
 }
 
@@ -129,7 +156,7 @@ module Store = {
     "configureStore"
 
   %%private(
-    let createReducers: array<sliceType> => JSON.t = %raw(`
+    let createReducers: 'slices => JSON.t = %raw(` // array<sliceType<'state>>
             (reducers) => {
             const r = {}
             reducers.forEach(reducer => {
