@@ -40,4 +40,4 @@ let useDispatch: unit => RTK.useDispatchReturnType<action> = () => {
   }
 }
 
-let use = (useState, useDispatch)
+let use = () => (useState(), useDispatch())
