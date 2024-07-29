@@ -33,7 +33,7 @@ let actionCreators = {
   incrementByAmount: (amount: int) => IncrementByAmount(amount),
   decrement: () => Decrement,
 }
-let counterSlice = RTK.createSlice2("counter2", initState, (reducer, actionCreators))
+let counterSlice = RTK.createSliceWithActionMapping("counter2", initState, (reducer, actionCreators))
 
 let useState: unit => state = () => counterSlice->RTK.toState
 
@@ -43,3 +43,5 @@ let decrementAction = actions.decrement()
 let {increment, incrementByAmount, decrement} = actions
 
 let useDispatch = () => RTK.useDispatch()
+
+let use = (useState, useDispatch)

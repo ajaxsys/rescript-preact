@@ -70,7 +70,7 @@ external createSlice: 'slice => sliceType = "createSlice"
     }
   `)
 )
-let createSlice3 = (name: string, initialState: 'state, (reducer, reducerActions: array<'ra>)) => {
+let createSliceWithActionArray = (name: string, initialState: 'state, (reducer, reducerActions: array<'ra>)) => {
   createSlice({
     "name": name,
     "initialState": initialState,
@@ -95,7 +95,7 @@ let createSlice3 = (name: string, initialState: 'state, (reducer, reducerActions
     }
   `)
 )
-let createSlice2 = (name: string, initialState: 'state, (reducer, reducerActions)): sliceType => {
+let createSliceWithActionMapping = (name: string, initialState: 'state, (reducer, reducerActions)): sliceType => {
   createSlice({
     "name": name,
     "initialState": initialState,
