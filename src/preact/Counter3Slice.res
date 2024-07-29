@@ -1,3 +1,5 @@
+let sliceName = "counter3"
+
 // Define Rs types
 type state = {value3: int}
 let initState: state = {
@@ -21,7 +23,7 @@ let reducer = ({value3}: state, a: action) =>{
 
 // 方式１ any other new ideas to list all action name as string?
 let reducerActions: array<action> = [Increment, IncrementByAmount(0), Decrement]
-let counterSlice = RTK.createSliceWithActionArray("counter3", initState, (reducer, reducerActions))
+let counterSlice = RTK.createSliceWithActionArray(sliceName, initState, (reducer, reducerActions))
 
 // 方式２
 // let actionCreators = {

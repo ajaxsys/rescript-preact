@@ -1,3 +1,5 @@
+let sliceName = "counter2"
+
 // Define Rs types
 type state = {value: int}
 let initState: state = {
@@ -33,7 +35,7 @@ let actionCreators = {
   incrementByAmount: (amount: int) => IncrementByAmount(amount),
   decrement: () => Decrement,
 }
-let counterSlice = RTK.createSliceWithActionMapping("counter2", initState, (reducer, actionCreators))
+let counterSlice = RTK.createSliceWithActionMapping(sliceName, initState, (reducer, actionCreators))
 
 let useState: unit => state = () => counterSlice->RTK.toState
 
