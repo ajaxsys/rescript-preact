@@ -5,7 +5,10 @@ let make = () => {
 
   // TODO
   let count2State = Counter2Slice.useState()
-  let dispatch = RTK.useDispatch()
+  let dispatch2 = Counter2Slice.useDispatch()
+
+  let count3State = Counter3Slice.useState()
+  let dispatch3 = Counter3Slice.useDispatch()
 
   <div className="p-6">
     <h1 className="text-3xl font-semibold"> {"What is this about?"->string} </h1>
@@ -17,9 +20,17 @@ let make = () => {
     <Button onClick={_ => {
       let {incrementByAmount} = Counter2Slice.actions
       Console.log(("xxxx", incrementByAmount))
-      dispatch(incrementByAmount(2))
+      dispatch2(incrementByAmount(2))
     }}>
-      {string(`count2 is ${count2State.value->Int.toString}`)}
+      {string(`count 2 is ${count2State.value->Int.toString}`)}
+    </Button>
+    <br />
+    <br />
+    // Counter3
+    <Button onClick={_ => {
+      dispatch3(IncrementByAmount(3))
+    }}>
+      {string(`count 3 is ${count3State.value3->Int.toString}`)}
     </Button>
     <p>
       {string("Edit ")}
