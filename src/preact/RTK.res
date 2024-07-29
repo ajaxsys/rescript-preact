@@ -12,39 +12,42 @@ type useDispatchReturnType<'action> = 'action => unit
 let useSelector: (@uncurry 'state => 'subState) => 'subState = useSelector_
 let useDispatch: unit => useDispatchReturnType<'action> = useDispatch_
 
-
-// TODO
-let action: ('slice, 'actionParam) => 'action = %raw(`
-  (slice, actionNameMayStringOrObject) => {
-    const isWithParam = actionNameMayStringOrObject["TAG"]
-    const actionName = isWithParam ? actionNameMayStringOrObject["TAG"] : actionNameMayStringOrObject
-    const actionFn = slice["actions"][actionName]
-    console.log(slice, actionName, actionFn)
-    if (!actionFn) {
-      throw new Error("Action not exist, " + actionName);
+%%private(
+  let actionAdaptor: ('slice, 'actionParam) => 'action = %raw(`
+    (slice, actionNameMayStringOrObject) => {
+      const isWithParam = actionNameMayStringOrObject["TAG"]
+      const actionName = isWithParam ? actionNameMayStringOrObject["TAG"] : actionNameMayStringOrObject
+      const actionFn = slice["actions"][actionName]
+      console.log(slice, actionName, actionFn)
+      if (!actionFn) {
+        throw new Error("Action not exist, " + actionName);
+      }
+      if (isWithParam) {
+        return actionFn(actionNameMayStringOrObject)
+      } else {
+        return actionFn()
+      }
     }
-    if (isWithParam) {
-      return actionFn(actionNameMayStringOrObject)
-    } else {
-      return actionFn()
-    }
-  }
-`)
-
+  `)
+)
 let useDispatchOf: ('slice, array<'action>) => useDispatchReturnType<'action> = (slice, _) => {
   let dispatch = useDispatch()
   (a) => {
-    dispatch(slice->action(a))
+    dispatch(slice->actionAdaptor(a))
   }
 }
 
-let toState: 'slice => 'state = %raw(`
-  slice => {
-    return useSelector((state) => {
-      return state[slice.name]
-    });
-  }
-`)
+%%private(
+  let stateAdaptor: 'slice => 'state = %raw(`
+    slice => {
+      return useSelector((state) => {
+        return state[slice.name]
+      });
+    }
+  `)
+)
+
+let useStateOf: ('slice, 'state) => 'state = (slice, _state) => stateAdaptor(slice)
 
 let toActions: 'slice => 'actions = %raw(`slice => slice["actions"]`)
 

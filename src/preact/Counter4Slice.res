@@ -33,7 +33,7 @@ let counterSlice = RTK.createSliceWithActionArray(sliceName, initState, (reducer
 // }
 // let counterSlice = RTK.createSlice3("counter2", initState, (reducer, actionCreators))
 
-let useState: unit => state = () => counterSlice->RTK.toState
+let useState: unit => state = () => counterSlice->RTK.useStateOf(initState)
 let useDispatch = () => RTK.useDispatchOf(counterSlice, reducerActions)
 
 let use = () => (useState(), useDispatch())

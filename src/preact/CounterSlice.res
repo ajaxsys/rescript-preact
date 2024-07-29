@@ -1,6 +1,6 @@
 // Define Rs types
 type state = {value: int}
-let initialState: state = {
+let initState: state = {
   value: 0,
 }
 
@@ -25,19 +25,19 @@ type sliceActions<'action> = {
 
 type slice<'state, 'action> = {
   name: string,
-  initialState: 'state,
+  initState: 'state,
   reducer: ('state, 'action) => 'state,
   actions: sliceActions<'action>,
 }
 
-let createSlice = (name: string, initialState: state) => {
+let createSlice = (name: string, initState: state) => {
   let increment = () => Increment
   let incrementByAmount = (amount: int) => IncrementByAmount(amount)
   let decrement = () => Decrement
   
   {
     name: name,
-    initialState: initialState,
+    initState: initState,
     reducer: reducer,
     actions: {
       increment: increment,
@@ -47,6 +47,6 @@ let createSlice = (name: string, initialState: state) => {
   }
 }
 
-let counterSlice = createSlice("counter", initialState)
+let counterSlice = createSlice("counter", initState)
 
-let useState: unit => state = () => counterSlice->RTK.toState
+let useState = () => counterSlice->RTK.useStateOf(initState)

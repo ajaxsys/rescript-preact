@@ -37,7 +37,7 @@ let actionCreators = {
 }
 let counterSlice = RTK.createSliceWithActionMapping(sliceName, initState, (reducer, actionCreators))
 
-let useState: unit => state = () => counterSlice->RTK.toState
+let useState = () => counterSlice->RTK.useStateOf(initState)
 
 let actions: sliceActions<action> = counterSlice->RTK.toActions
 let decrementAction = actions.decrement()
