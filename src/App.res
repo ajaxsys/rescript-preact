@@ -37,7 +37,7 @@ let make = () => {
 
     // Counter3
     <Button onClick={_ => {
-      dispatch3(IncrementByAmount3(3))
+      dispatch3(IncrementByAmount(3))
     }}>
       {`Count 3 is ${state3.value3->Int.toString}`->string}
     </Button>
@@ -47,7 +47,7 @@ let make = () => {
 
     // Counter4
     <Button onClick={_ => {
-      dispatch4(IncrementByAmount4(4))
+      dispatch4(IncrementByAmount(4))
     }}>
       {`Count 4 is ${state4.value4->Int.toString}`->string}
     </Button>
