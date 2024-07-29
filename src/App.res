@@ -3,9 +3,6 @@ open Preact
 @jsx.component
 let make = () => {
 
-  let (state2, dispatch2) = Counter2Slice.use()
-  let (state3, dispatch3) = Counter3Slice.use()
-  let (state4, dispatch4) = Counter4Slice.use()
   // let state2 = Counter2Slice.useState()
   // let dispatch2 = Counter2Slice.useDispatch()
 
@@ -14,6 +11,9 @@ let make = () => {
 
   // let state4 = Counter4Slice.useState()
   // let dispatch4 = Counter4Slice.useDispatch()
+  let (state2, dispatch2) = Counter2Slice.use()
+  let (state3, dispatch3) = Counter3Slice.use()
+  let (state4, dispatch4) = Counter4Slice.use()
 
   <div className="p-6">
     <h1 className="text-3xl font-semibold"> {"What is this about?"->string} </h1>
