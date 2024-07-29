@@ -12,7 +12,6 @@ type action =
 
 
 let reducer = ({value4}: state, a: action) =>{
-  Console.log("Rs reducer caled")
   switch a {
   | Increment => {value4: value4 + 1}
   | IncrementByAmount(amount) => {value4: value4 + amount}
@@ -22,9 +21,13 @@ let reducer = ({value4}: state, a: action) =>{
 
 // TODO any other new ideas to list all action name as string?
 let reducerActions: array<action> = [Increment, IncrementByAmount(0), Decrement]
-let counterSlice = RTK.createSliceWithActionArray(sliceName, initState, (reducer, reducerActions))
+let slice = RTK.createSliceWithActionArray(sliceName, initState, (reducer, reducerActions))
 
-let useState = () => counterSlice->RTK.useStateOf(initState)
-let useDispatch = () => counterSlice->RTK.useDispatchOf(reducerActions)
+// let useState = () => slice->RTK.useStateOf(initState)
+// let useDispatch = () => slice->RTK.useDispatchOf(reducerActions)
 
-let use = () => (useState(), useDispatch())
+let use = () => (
+  slice->RTK.useStateOf(initState),
+  slice->RTK.useDispatchOf(reducerActions)
+)
+

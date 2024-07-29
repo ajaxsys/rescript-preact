@@ -47,6 +47,6 @@ let createSlice = (name: string, initState: state) => {
   }
 }
 
-let counterSlice = createSlice("counter", initState)
+let slice = createSlice("counter", initState)
 
-let useState = () => counterSlice->RTK.useStateOf(initState)
+let useState = () => slice->RTK.useStateOf(initState)

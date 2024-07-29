@@ -18,7 +18,7 @@ let useDispatch: unit => useDispatchReturnType<'action> = useDispatch_
       const isWithParam = actionNameMayStringOrObject["TAG"]
       const actionName = isWithParam ? actionNameMayStringOrObject["TAG"] : actionNameMayStringOrObject
       const actionFn = slice["actions"][actionName]
-      console.log(slice, actionName, actionFn)
+      // console.debug("Called actionAdaptor", slice, actionName, actionFn)
       if (!actionFn) {
         throw new Error("Action not exist, " + actionName);
       }
@@ -41,7 +41,12 @@ let useDispatchOf: ('slice, array<'action>) => useDispatchReturnType<'action> = 
   let stateAdaptor: 'slice => 'state = %raw(`
     slice => {
       return useSelector((state) => {
-        return state[slice.name]
+        const stateOfSlice = state[slice.name]
+        if (stateOfSlice) {
+          return stateOfSlice
+        }
+        console.debug("Current state", state)
+        throw new Error("Fatal! Did you forgot add slice \'" + slice.name + "\' to store?")
       });
     }
   `)
@@ -51,18 +56,23 @@ let useStateOf: ('slice, 'state) => 'state = (slice, _state) => stateAdaptor(sli
 
 let toActions: 'slice => 'actions = %raw(`slice => slice["actions"]`)
 
+type sliceTypeActions
+type sliceTypeReducer
+
 // TODO more type
-// type sliceType<'state> = {
-//   name: string,
-//   initialState: 'state,
-// }
-type sliceType = {
+type sliceType<'state> = {
   name: string,
+  initialState: 'state,
+  actions: sliceTypeActions,
+  reducer: sliceTypeReducer,
 }
+// type sliceType = {
+//   name: string,
+// }
 
 
 @module("@reduxjs/toolkit")
-external createSlice: 'slice => sliceType = "createSlice"
+external createSlice: 'sliceConfig => sliceType<'state> = "createSlice"
 
 %%private(
   let toReducersObject = %raw(`
@@ -80,7 +90,11 @@ external createSlice: 'slice => sliceType = "createSlice"
     }
   `)
 )
-let createSliceWithActionArray = (name: string, initialState: 'state, (reducer, reducerActions: array<'ra>)) => {
+let createSliceWithActionArray = (
+  name: string,
+  initialState: 'state,
+  (reducer, reducerActions: array<'ra>)
+): sliceType<'state> => {
   createSlice({
     "name": name,
     "initialState": initialState,
@@ -105,7 +119,11 @@ let createSliceWithActionArray = (name: string, initialState: 'state, (reducer, 
     }
   `)
 )
-let createSliceWithActionMapping = (name: string, initialState: 'state, (reducer, reducerActions)): sliceType => {
+let createSliceWithActionMapping = (
+  name: string,
+  initialState: 'state,
+  (reducer, reducerActions)
+): sliceType<'state> => {
   createSlice({
     "name": name,
     "initialState": initialState,
@@ -164,19 +182,22 @@ module Store = {
     "configureStore"
 
   %%private(
-    let createReducers: 'slices => JSON.t = %raw(` // array<sliceType<'state>>
-            (reducers) => {
-            const r = {}
-            reducers.forEach(reducer => {
-                if (reducer && reducer.name) {
-                r[reducer.name] = reducer["reducer"]
-                }
-            });
-            return r;
-        }`)
+    let createReducers: 'slices => JSON.t = %raw(` // sliceType<'state> | array<sliceType<'state>>
+      (singleReducerOrArray) => {
+        const reducers = Array.isArray(singleReducerOrArray) ? singleReducerOrArray : [singleReducerOrArray]
+        console.log("Tuble", reducers, typeof reducers);
+        const r = {}
+        reducers.forEach(reducer => {
+            if (reducer && reducer.name) {
+            r[reducer.name] = reducer["reducer"]
+            }
+        });
+        return r;
+      }
+    `)
   )
 
-  let configureStore = (slices: array<sliceType>) => {
+  let configureStore = (slices: 'sliceTypeOrTuples) => {
     configureStore_({
       reducer: createReducers(slices),
     })

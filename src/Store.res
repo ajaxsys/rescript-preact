@@ -1,6 +1,6 @@
-let slices = [
-  Counter2Slice.counterSlice, 
-  Counter3Slice.counterSlice,
-  Counter4Slice.counterSlice,
-] // More slice add here
+let slices = (
+  Counter2Slice.slice, 
+  Counter3Slice.slice,
+  Counter4Slice.slice,
+) // More slice add here
 let store = slices->RTK.Store.configureStore

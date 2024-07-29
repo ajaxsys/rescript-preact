@@ -3,14 +3,17 @@ open Preact
 @jsx.component
 let make = () => {
 
-  let state2 = Counter2Slice.useState()
-  let dispatch2 = Counter2Slice.useDispatch()
+  let (state2, dispatch2) = Counter2Slice.use()
+  let (state3, dispatch3) = Counter3Slice.use()
+  let (state4, dispatch4) = Counter4Slice.use()
+  // let state2 = Counter2Slice.useState()
+  // let dispatch2 = Counter2Slice.useDispatch()
 
-  let state3 = Counter3Slice.useState()
-  let dispatch3 = Counter3Slice.useDispatch()
+  // let state3 = Counter3Slice.useState()
+  // let dispatch3 = Counter3Slice.useDispatch()
 
-  let state4 = Counter4Slice.useState()
-  let dispatch4 = Counter4Slice.useDispatch()
+  // let state4 = Counter4Slice.useState()
+  // let dispatch4 = Counter4Slice.useDispatch()
 
   <div className="p-6">
     <h1 className="text-3xl font-semibold"> {"What is this about?"->string} </h1>
@@ -19,7 +22,7 @@ let make = () => {
     </p>
     <h2 className="text-2xl font-semibold mt-5"> {"Fast Refresh Test1"->string} </h2>
     <hr />
-    
+
     // Counter2
     <Button onClick={_ => {
       let {incrementByAmount} = Counter2Slice.actions
