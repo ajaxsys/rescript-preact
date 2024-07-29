@@ -19,8 +19,10 @@ let reducer = ({value4}: state, a: action) =>{
   }
 }
 
-// TODO any other new ideas to list all action name as string?
-let reducerActions: array<action> = [Increment, IncrementByAmount(0), Decrement]
+%%private(
+  // TODO any other new ideas to list all action name as string?
+  let reducerActions: array<action> = [Increment, IncrementByAmount(0), Decrement]
+)
 let slice = RTK.createSliceWithActionArray(sliceName, initState, (reducer, reducerActions))
 
 // let useState = () => slice->RTK.useStateOf(initState)
