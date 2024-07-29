@@ -18,7 +18,7 @@ let make = () => {
   <div className="p-6">
     <h1 className="text-3xl font-semibold"> {"What is this about?"->string} </h1>
     <p>
-      {"This is a simple template for a Vite project using ReScript & Tailwind CSS."->string}
+      {"This is a simple template for a Vite project using ReScript & Redux Toolkit & Tailwind CSS."->string}
     </p>
     <h2 className="text-2xl font-semibold mt-5"> {"Edit me to test Fast Refresh"->string} </h2>
     <hr />
