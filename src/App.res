@@ -20,7 +20,7 @@ let make = () => {
     <p>
       {"This is a simple template for a Vite project using ReScript & Tailwind CSS."->string}
     </p>
-    <h2 className="text-2xl font-semibold mt-5"> {"Fast Refresh Test1"->string} </h2>
+    <h2 className="text-2xl font-semibold mt-5"> {"Edit me to test Fast Refresh"->string} </h2>
     <hr />
 
     // Counter2
