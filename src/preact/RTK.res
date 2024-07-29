@@ -31,6 +31,13 @@ let action: ('slice, 'actionParam) => 'action = %raw(`
   }
 `)
 
+let useDispatchOf: ('slice, array<'action>) => useDispatchReturnType<'action> = (slice, _) => {
+  let dispatch = useDispatch()
+  (a) => {
+    dispatch(slice->action(a))
+  }
+}
+
 let toState: 'slice => 'state = %raw(`
   slice => {
     return useSelector((state) => {
