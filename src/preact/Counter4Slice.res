@@ -9,25 +9,27 @@ type action =
   | Increment
   | IncrementByAmount(int)
   | Decrement
+  | Decrement2
 
 let reducer = ({value4}: state, a: action) => {
   switch a {
   | Increment => {value4: value4 + 1}
   | IncrementByAmount(amount) => {value4: value4 + amount}
   | Decrement => {value4: value4 - 1}
+  | Decrement2 => {value4: value4 - 2}
   }
 }
 
-%%private(
-  // TODO any other new ideas to list all action name as string?
-  let initActions: array<action> = [Increment, IncrementByAmount(0), Decrement]
-)
-let slice = RTK.createSliceWithActionArray(sliceName, initState, (reducer, initActions))
+module TypeSafe: {let actions: array<action>} = {
+  type aCopyOfActionType =
+    | Increment
+    | IncrementByAmount(int)
+    | Decrement
+    | Decrement2
+    // If you forgot to add a type to array, you will got a warning
+    // https://forum.rescript-lang.org/t/is-there-a-way-to-get-the-name-of-variant-in-type/4420/7
+  let actions = ([Increment, IncrementByAmount(0), Decrement] :> array<action>)
+}
 
-// let useState = () => slice->RTK.useStateOf(initState)
-// let useDispatch = () => slice->RTK.useDispatchOf(initActions)
-
-let use = () => (
-  slice->RTK.useStateOf(initState),
-  slice->RTK.useDispatchOf(initActions)
-)
+let slice = RTK.createSliceWithActionArray(sliceName, initState, (reducer, TypeSafe.actions))
+let use = () => (slice->RTK.useStateOf(initState), slice->RTK.useDispatchOf(TypeSafe.actions))
