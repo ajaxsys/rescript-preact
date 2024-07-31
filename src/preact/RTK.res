@@ -93,7 +93,8 @@ external createSlice: 'sliceConfig => sliceType<'state> = "createSlice"
 let createSliceWithActionArray = (
   name: string,
   initialState: 'state,
-  (reducer, reducerActions: array<'ra>)
+  reducer: ('state, 'action) => 'state, 
+  reducerActions: array<'action>
 ): sliceType<'state> => {
   createSlice({
     "name": name,
